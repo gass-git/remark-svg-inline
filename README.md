@@ -1,2 +1,3 @@
 # rehype-svg-inline
-A rehype plugin that inlines SVG images.
+
+Lightweight, ESM-first, TS ready rehype plugin for inlining SVG images.
