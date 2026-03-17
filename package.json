@@ -28,14 +28,15 @@
   "scripts": {
     "build": "tsc",
     "dev": "rimraf --glob \"*.tgz\" && npm run build && npm pack && npm link",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest"
   },
   "devDependencies": {
     "@types/mdast": "^4.0.4",
     "@types/node": "^25.5.0",
     "prettier": "^3.8.1",
     "typescript": "^5.9.3",
-    "unified": "^11.0.5"
+    "unified": "^11.0.5",
+    "vitest": "^4.1.0"
   },
   "dependencies": {
     "unist-util-visit": "^5.1.0"
