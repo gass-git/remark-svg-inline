@@ -6,12 +6,12 @@ import { visit } from 'unist-util-visit';
 import { VFile } from 'vfile';
 
 type Options = {
-  assetsDir: string;
+  assetsDir: string | undefined;
   wrapper: string;
 };
 
 const inlineSvg: Plugin<[string?, string?], Root, Root> = (
-  assetsDir = '',
+  assetsDir = undefined,
   wrapper = `<figure class="inline-svg"></figure>`,
 ) => {
   const options: Options = { assetsDir, wrapper };
