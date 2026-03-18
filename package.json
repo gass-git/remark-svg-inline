@@ -1,7 +1,7 @@
 {
-  "name": "rehype-svg-inline",
+  "name": "remark-inline-svg-flex",
   "version": "0.0.1",
-  "description": "Lightweight, ESM-first, TS ready rehype plugin for inlining SVG images",
+  "description": "Flexible Remark plugin that inlines and optimizes SVGs with SVGO, featuring customizable path resolution and wrappers.",
   "keywords": [
     "unified",
     "rehype",
@@ -13,13 +13,13 @@
     "img",
     "html"
   ],
-  "homepage": "https://github.com/gass-git/rehype-svg-inline#readme",
+  "homepage": "https://github.com/gass-git/remark-inline-svg-flex#readme",
   "bugs": {
-    "url": "https://github.com/gass-git/rehype-svg-inline/issues"
+    "url": "https://github.com/gass-git/remark-inline-svg-flex/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gass-git/rehype-svg-inline.git"
+    "url": "git+https://github.com/gass-git/remark-inline-svg-flex.git"
   },
   "license": "MIT",
   "author": "gass-git",
