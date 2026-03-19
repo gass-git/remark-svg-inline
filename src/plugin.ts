@@ -8,12 +8,12 @@ import { optimize } from 'svgo';
 import type { Output } from 'svgo';
 import type { Options } from './types';
 
-const inlineSvg: Plugin<[string?, string?], Root, Root> = (
+const inlineSvg: Plugin<[Options], Root, Root> = ({
   suffix = '.svg',
   assetsDir = undefined,
   wrapper = '<figure class="inline-svg"></figure>',
   svgo = true,
-) => {
+}) => {
   const options: Options = { suffix, assetsDir, wrapper, svgo };
 
   return function transformer(tree: Root, file: VFile): void {

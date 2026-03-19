@@ -28,12 +28,14 @@
   "scripts": {
     "build": "tsc",
     "dev": "rimraf --glob \"*.tgz\" && npm run build && npm pack && npm link",
-    "test": "vitest"
+    "tests": "vitest"
   },
   "devDependencies": {
     "@types/mdast": "^4.0.4",
     "@types/node": "^25.5.0",
     "prettier": "^3.8.1",
+    "remark": "^15.0.1",
+    "remark-parse": "^11.0.0",
     "svgo": "^4.0.1",
     "typescript": "^5.9.3",
     "unified": "^11.0.5",
