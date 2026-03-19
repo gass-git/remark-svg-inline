@@ -4,6 +4,8 @@ import path from 'node:path';
 import fs from 'node:fs';
 import { visit } from 'unist-util-visit';
 import { VFile } from 'vfile';
+import { optimize } from 'svgo';
+import type { Output } from 'svgo';
 
 type Options = {
   assetsDir: string | undefined;
@@ -24,11 +26,12 @@ const inlineSvg: Plugin<[string?, string?], Root, Root> = (
 
       try {
         const svgPath = resolvePath(options, node, markdownFileDir);
-        const svgContent = fs.readFileSync(svgPath, 'utf8');
+        const svgString = fs.readFileSync(svgPath, 'utf8');
+        const optimizedSvgString = optimizeSvg(svgString).data;
 
         parent.children[index] = {
           type: 'html',
-          value: wrap(svgContent, wrapper),
+          value: wrap(optimizedSvgString, wrapper),
         };
       } catch (error) {
         console.warn(error);
@@ -59,6 +62,12 @@ function resolvePath(options: Options, node: Image, markdownFileDir: string): st
     // Treat as relative to markdown file directory.
     return path.resolve(markdownFileDir, node.url);
   }
+}
+
+function optimizeSvg(svgString: string): Output {
+  return optimize(svgString, {
+    plugins: ['preset-default', 'removeXMLNS', 'removeDimensions'],
+  });
 }
 
 export { inlineSvg };
