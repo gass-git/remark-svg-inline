@@ -8,6 +8,15 @@ import { optimize } from 'svgo';
 import type { Output } from 'svgo';
 import type { Options } from './types';
 
+/**
+ * Transforms image nodes that match the given suffix (default: .svg) into inline SVG.
+ *
+ * @param options - Plugin configuration
+ * @param options.suffix - File extension to match (default: '.svg')
+ * @param options.assetsDir - Optional base directory for resolving SVG paths (default: undefined)
+ * @param options.wrapper - Optional HTML wrapper for the inline SVG (default: `<figure class="inline-svg"></figure>`)
+ * @param options.svgo - Whether to optimize SVG using SVGO (default: true)
+ */
 const inlineSvg: Plugin<[Options], Root, Root> = ({
   suffix = '.svg',
   assetsDir = undefined,
@@ -33,12 +42,18 @@ const inlineSvg: Plugin<[Options], Root, Root> = ({
   };
 };
 
+/**
+ * Reads an SVG file and optionally optimizes it with SVGO.
+ */
 function processSvg(path: string, svgo: boolean): string {
   const svgString = fs.readFileSync(path, 'utf8');
 
   return svgo ? optimizeSvg(svgString).data : svgString;
 }
 
+/**
+ * Injects SVG markup into an HTML wrapper before its closing tag.
+ */
 function wrap(svgString: string, htmlWrapper: string): string {
   const i = htmlWrapper.lastIndexOf('</');
 
@@ -49,23 +64,28 @@ function wrap(svgString: string, htmlWrapper: string): string {
   return htmlWrapper.slice(0, i) + svgString + htmlWrapper.slice(i);
 }
 
+/**
+ * Resolves the final SVG file path based on:
+ * 1) absolute URL → from project root
+ * 2) `assetsDir` → relative to it
+ * 3) fallback → relative to Markdown file directory
+ */
 function resolvePath(
   assetsDir: string | undefined,
   node: Image,
   markdownFileDir: string,
 ): string {
   if (path.isAbsolute(node.url)) {
-    // Treat as relative to project root.
     return path.resolve(process.cwd(), node.url);
   } else if (assetsDir) {
-    // If path is not absolute, use the assets directory provided in options.
     return path.resolve(process.cwd(), assetsDir, node.url);
   } else {
-    // Treat as relative to markdown file directory.
     return path.resolve(markdownFileDir, node.url);
   }
 }
-
+/**
+ * Optimizes SVG content using predefined SVGO plugins.
+ */
 function optimizeSvg(svgString: string): Output {
   return optimize(svgString, {
     plugins: ['preset-default', 'removeXMLNS', 'removeDimensions'],
