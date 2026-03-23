@@ -17,23 +17,29 @@ import type { Options } from './types';
  * @param options.wrapper - Optional HTML wrapper for the inline SVG (default: `<figure class="inline-svg"></figure>`)
  * @param options.svgo - Whether to optimize SVG using SVGO (default: true)
  */
-const inlineSvg: Plugin<[Options], Root, Root> = ({
-  suffix = '.svg',
-  assetsDir = undefined,
-  wrapper = '<figure class="inline-svg"></figure>',
-  svgo = true,
-}) => {
+const inlineSvg: Plugin<[Options?], Root, Root> = (consumerOptions: Options = {}) => {
+  const options = {
+    suffix: consumerOptions.suffix ?? '.svg',
+    assetsDir: consumerOptions.assetsDir,
+    wrapper: consumerOptions.wrapper ?? '<figure class="inline-svg"></figure>',
+    svgo: consumerOptions.svgo ?? true,
+  };
+
   return function transformer(tree: Root, file: VFile): void {
     visit(tree, 'image', (node, i, parent) => {
-      if (!node.url?.endsWith(suffix) || !parent) return;
+      if (!node.url?.endsWith(options.suffix) || !parent) return;
 
       try {
-        const svgPath = resolvePath(assetsDir, node, path.dirname(file.history[0]));
-        const svgString = processSvg(svgPath, svgo);
+        const svgPath = resolvePath(
+          options.assetsDir,
+          node,
+          path.dirname(file.history[0]),
+        );
+        const svgString = processSvg(svgPath, options.svgo);
 
         parent.children[i] = {
           type: 'html',
-          value: wrapper ? wrap(svgString, wrapper) : svgString,
+          value: options.wrapper ? wrap(svgString, options.wrapper) : svgString,
         };
       } catch (error) {
         console.warn(error);
