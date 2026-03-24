@@ -1,4 +1,4 @@
-> ⚠️ Beta Nearing v1.0.0 — APIs may still change slightly.
+⚠️ Beta Nearing v1.0.0 — APIs may still change slightly.
 
 # remark-inline-svg-flex
 
