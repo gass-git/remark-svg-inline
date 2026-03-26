@@ -61,9 +61,7 @@ This is a test markdown document.
 ![some svg](some.svg)
 ```
 
-And our module `example.js` looks as the one below. It is recommended to pass
-the markdown directory path to `process()` so that the plugin can resolve relative
-paths correctly.
+And our module `example.js` looks as the one below (it is recommended to pass the markdown directory path to `process()` so that the plugin can resolve relative paths correctly).
 
 ```js
 import { remark } from 'remark';
